@@ -1,0 +1,526 @@
+[
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.AuthController",
+    "Method": "Login",
+    "RelativePath": "api/auth/login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "r",
+        "Type": "BaglanCarCare.Application.DTOs.LoginDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.AuthController",
+    "Method": "Register",
+    "RelativePath": "api/auth/register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "r",
+        "Type": "BaglanCarCare.Application.DTOs.RegisterDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.CatalogController",
+    "Method": "GetCategories",
+    "RelativePath": "api/Catalog/categories",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.CatalogController",
+    "Method": "CreateCategory",
+    "RelativePath": "api/Catalog/categories",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "BaglanCarCare.Application.DTOs.CreateCategoryDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.CatalogController",
+    "Method": "UpdateCategory",
+    "RelativePath": "api/Catalog/categories",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "BaglanCarCare.Application.DTOs.UpdateCategoryDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.CatalogController",
+    "Method": "DeleteCategory",
+    "RelativePath": "api/Catalog/categories/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.CatalogController",
+    "Method": "CreatePart",
+    "RelativePath": "api/Catalog/parts",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "BaglanCarCare.Application.DTOs.CreatePartPriceDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.CatalogController",
+    "Method": "UpdatePart",
+    "RelativePath": "api/Catalog/parts",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "BaglanCarCare.Application.DTOs.UpdatePartPriceDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.CatalogController",
+    "Method": "DeletePart",
+    "RelativePath": "api/Catalog/parts/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.CatalogController",
+    "Method": "GetProducts",
+    "RelativePath": "api/Catalog/products",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.CatalogController",
+    "Method": "CreateProduct",
+    "RelativePath": "api/Catalog/products",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "BaglanCarCare.Application.DTOs.CreateProductDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.CatalogController",
+    "Method": "UpdateProduct",
+    "RelativePath": "api/Catalog/products",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "BaglanCarCare.Application.DTOs.UpdateProductDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.CatalogController",
+    "Method": "GetProduct",
+    "RelativePath": "api/Catalog/products/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.CatalogController",
+    "Method": "DeleteProduct",
+    "RelativePath": "api/Catalog/products/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.CatalogController",
+    "Method": "CreateVariant",
+    "RelativePath": "api/Catalog/variants",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "BaglanCarCare.Application.DTOs.CreateVariantDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.CatalogController",
+    "Method": "UpdateVariant",
+    "RelativePath": "api/Catalog/variants",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "req",
+        "Type": "BaglanCarCare.Application.DTOs.UpdateVariantDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.CatalogController",
+    "Method": "DeleteVariant",
+    "RelativePath": "api/Catalog/variants/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.DashboardController",
+    "Method": "Stats",
+    "RelativePath": "api/dashboard/ozet",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.ExpensesController",
+    "Method": "GetAll",
+    "RelativePath": "api/ek-muhasebe",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.ExpensesController",
+    "Method": "Create",
+    "RelativePath": "api/ek-muhasebe",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BaglanCarCare.Application.DTOs.CreateExpenseDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.ExpensesController",
+    "Method": "Update",
+    "RelativePath": "api/ek-muhasebe",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BaglanCarCare.Application.DTOs.UpdateExpenseDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.ExpensesController",
+    "Method": "Delete",
+    "RelativePath": "api/ek-muhasebe/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.AccountingController",
+    "Method": "UpdatePayment",
+    "RelativePath": "api/muhasebe/odeme-guncelle",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "r",
+        "Type": "BaglanCarCare.Application.DTOs.UpdatePaymentDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.AccountingController",
+    "Method": "GetReport",
+    "RelativePath": "api/muhasebe/rapor",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "start",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      },
+      {
+        "Name": "end",
+        "Type": "System.DateTime",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.PersonnelsController",
+    "Method": "Get",
+    "RelativePath": "api/personel",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "search",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.PersonnelsController",
+    "Method": "Post",
+    "RelativePath": "api/personel",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "r",
+        "Type": "BaglanCarCare.Application.DTOs.CreatePersonnelDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.PersonnelsController",
+    "Method": "Put",
+    "RelativePath": "api/personel",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "r",
+        "Type": "BaglanCarCare.Application.DTOs.UpdatePersonnelDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.PersonnelsController",
+    "Method": "Delete",
+    "RelativePath": "api/personel/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.OrdersController",
+    "Method": "GetAll",
+    "RelativePath": "api/siparis",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.OrdersController",
+    "Method": "Create",
+    "RelativePath": "api/siparis",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BaglanCarCare.Application.DTOs.CreateOrderDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.OrdersController",
+    "Method": "Delete",
+    "RelativePath": "api/siparis/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.OrdersController",
+    "Method": "Search",
+    "RelativePath": "api/siparis/ara/{text}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "text",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.OrdersController",
+    "Method": "Update",
+    "RelativePath": "api/siparis/guncelle",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "BaglanCarCare.Application.DTOs.UpdateOrderDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BaglanCarCare.WebApi.Controllers.WeatherForecastController",
+    "Method": "Get",
+    "RelativePath": "WeatherForecast",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[BaglanCarCare.WebApi.WeatherForecast, BaglanCarCare.WebApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ],
+    "EndpointName": "GetWeatherForecast"
+  }
+]

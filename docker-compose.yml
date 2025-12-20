@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  # 1. Veritabanı (PostgreSQL)
+  db:
+    image: postgres:15-alpine
+    container_name: baglan_db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: BaglanCarCareDb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # 2. Backend API (.NET)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: baglan_backend
+    depends_on:
+      - db
+    ports:
+      - "5000:8080" # Bilgisayarındaki 5000 portunu container'ın 8080'ine bağlar
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=db;Database=BaglanCarCareDb;Username=admin;Password=password123
+      - ASPNETCORE_ENVIRONMENT=Development
+
+  # 3. Frontend (React)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: baglan_frontend
+    ports:
+      - "3000:80" # Tarayıcıda http://localhost:3000 adresinden erişilecek
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="BaglanCarCare.Application/BaglanCarCare.Application.csproj" />
+  <Project Path="BaglanCarCare.Domain/BaglanCarCare.Domain.csproj" />
+  <Project Path="BaglanCarCare.Persistence/BaglanCarCare.Persistence.csproj" />
+  <Project Path="BaglanCarCare.WebApi/BaglanCarCare.WebApi.csproj" />
+</Solution>
