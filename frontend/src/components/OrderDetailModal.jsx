@@ -185,8 +185,8 @@ const OrderDetailModal = ({ order, staff, onClose, onSave }) => {
                                 ? "bg-purple-100 border-purple-300 text-purple-800 dark:bg-purple-900/30 dark:border-purple-800 dark:text-purple-300" 
                                 : "bg-white border-gray-200 text-gray-600 hover:border-gray-300 dark:bg-dark-bg dark:border-dark-border dark:text-gray-400"}`}>
                                 <div className="flex flex-col items-start leading-tight">
-                                    <span className="font-bold">{p.firstName} {p.lastName}</span>
-                                    <span className="text-[10px] opacity-75">{p.position || p.role || "Personel"}</span>
+                                    <span className="font-bold">{p.fullName || p.FullName}</span>
+                                    <span className="text-[10px] opacity-75">{p.position || p.Position || "Personel"}</span>
                                 </div>
                                 {isSelected && <Check size={14}/>}
                             </button>

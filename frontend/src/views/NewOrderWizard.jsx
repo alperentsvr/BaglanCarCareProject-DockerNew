@@ -512,13 +512,13 @@ const NewOrderWizard = ({ onClose, onSuccess }) => {
                           : "hover:bg-gray-50 border-gray-200 dark:border-dark-border dark:hover:bg-dark-hover"}`}>
                         <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-white shadow-sm flex-shrink-0
                           ${isSelected ? "bg-blue-600 dark:bg-brand" : "bg-gray-400"}`}>
-                          {p.firstName?.charAt(0) || "?"}
+                          {(p.fullName || p.FullName || "?").charAt(0)}
                         </div>
                         <div className="flex flex-col min-w-0">
                            <span className={`font-bold truncate ${isSelected ? "text-blue-900 dark:text-white" : "text-gray-700 dark:text-gray-300"}`}>
-                             {p.firstName} {p.lastName}
+                             {p.fullName || p.FullName || p.firstName + " " + p.lastName}
                            </span>
-                           <span className="text-xs text-gray-500 dark:text-gray-400 truncate">{p.position || p.role || "Pozisyon Yok"}</span>
+                           <span className="text-xs text-gray-500 dark:text-gray-400 truncate">{p.position || p.Position || p.role || "Pozisyon Yok"}</span>
                         </div>
                         {isSelected && <Check className="ml-auto text-blue-600 dark:text-brand" size={16}/>}
                    </div>
