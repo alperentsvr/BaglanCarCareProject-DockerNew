@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import LoginView from "./views/Login";
 import Dashboard from "./views/Dashboard";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -45,13 +46,13 @@ const App = () => {
   };
 
   return (
-    <>
+    <ErrorBoundary>
       {isAuthenticated ? (
         <Dashboard user={user} onLogout={handleLogout} />
       ) : (
         <LoginView onLogin={handleLogin} />
       )}
-    </>
+    </ErrorBoundary>
   );
 };
 
