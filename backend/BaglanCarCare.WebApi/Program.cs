@@ -88,10 +88,14 @@ var app = builder.Build();
 
 // 6. DB Migration & Seed
 /* 
-   FRANKFURT GÜNCELLEMESİ:
-   Veritabanı Frankfurt'a taşındığı için artık gecikme sorunu yok.
-   Otomatik kurulumu (Migration) tekrar açıyoruz.
+   ACİL MÜDAHALE:
+   Render'ın "Port Timeout" hatasını kesin olarak çözmek için
+   otomatik veritabanı kurulumunu kapattık.
+   Uygulama artık veritabanını beklemeden anında açılacak.
+   
+   Tabloları kendi bilgisayarımızdan güncelleyeceğiz.
 */
+/*
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -107,6 +111,7 @@ using (var scope = app.Services.CreateScope())
         Log.Error(ex, "Veritabanı migration/seed sırasında hata oluştu.");
     }
 }
+*/
 
 // 7. Pipeline
 // Swagger'ı her ortamda açıyoruz (Production dahil)
