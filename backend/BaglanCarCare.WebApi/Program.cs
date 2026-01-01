@@ -1,58 +1,39 @@
 using BaglanCarCare.Application;
 using BaglanCarCare.Persistence;
+using BaglanCarCare.Persistence.Contexts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models; // <-- BU EKLENDÝ (Swagger Modelleri Ýçin)
+using Microsoft.OpenApi.Models;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. KATMANLAR
+// 1. Serilog Setup
+builder.Host.UseSerilog((context, configuration) =>
+    configuration.ReadFrom.Configuration(context.Configuration));
+
+// 2. Add services
 builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddApplicationServices();
-
-// 2. JWT TOKEN AYARLARI
-var key = Encoding.ASCII.GetBytes(builder.Configuration["JwtSettings:SecretKey"]);
-builder.Services.AddAuthentication(x => {
-    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(x => {
-    x.RequireHttpsMetadata = false;
-    x.SaveToken = true;
-    x.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(key),
-        ValidateIssuer = false,
-        ValidateAudience = false
-    };
-});
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-// =========================================================================
-// 3. SWAGGER AYARLARI (KÝLÝT BUTONU ÝÇÝN BURASI DEÐÝÞTÝ)
-// =========================================================================
+// 3. Swagger Config
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Baglan Car Care API", Version = "v1" });
-
-    // Kilit (Authorize) Butonunu Tanýmlýyoruz
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        Description = "JWT Authorization header using the Bearer scheme. \r\n\r\n " +
-                      "Kullanýmý: Kutucuða 'Bearer' yazýp boþluk býrakýn ve token'ý yapýþtýrýn. \r\n\r\n" +
-                      "Örnek: 'Bearer eyJhbGciOiJIUzI1Ni...'",
+        Description = "JWT Authorization header using the Bearer scheme. Example: \"Bearer {token}\"",
         Name = "Authorization",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.ApiKey,
         Scheme = "Bearer"
     });
-
-    // Bu güvenliði tüm endpointlere uyguluyoruz
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
             new OpenApiSecurityScheme
@@ -70,35 +51,82 @@ builder.Services.AddSwaggerGen(c =>
         }
     });
 });
-// =========================================================================
 
-builder.Services.AddCors(o => o.AddPolicy("AllowAll", b => b.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
+// 4. Authentication
+var key = Encoding.ASCII.GetBytes(builder.Configuration["JwtSettings:SecretKey"] ?? "BuEnAz32KarakterlikCokGizliBirSifreOlmali123456");
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(x =>
+{
+    x.RequireHttpsMetadata = false;
+    x.SaveToken = true;
+    x.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = false,
+        ValidateAudience = false
+    };
+});
+
+// 5. CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
 
 var app = builder.Build();
 
-// Seed (Otomatik Veri Yükleme)
+// 6. DB Migration & Seed
 using (var scope = app.Services.CreateScope())
 {
-    var ctx = scope.ServiceProvider.GetRequiredService<BaglanCarCare.Persistence.Contexts.BaglanCarCareDbContext>();
-
-    // EKLENECEK SATIR: Veritabaný yoksa oluþturur, varsa eksik tablolarý günceller.
-    ctx.Database.Migrate();
-
-    await BaglanCarCare.Persistence.Seeds.ContextSeed.SeedAsync(ctx);
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<BaglanCarCareDbContext>();
+        context.Database.Migrate();
+        // Seed metodunun varlÄ±ÄŸÄ±nÄ± loglardan teyit ettik
+        await BaglanCarCare.Persistence.Seeds.ContextSeed.SeedAsync(context); 
+    }
+    catch (Exception ex)
+    {
+        Log.Error(ex, "VeritabanÄ± migration/seed sÄ±rasÄ±nda hata oluÅŸtu.");
+    }
 }
 
+// 7. Pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-//app.UseHttpsRedirection();
+app.UseSerilogRequestLogging(); // HTTP isteklerini logla
+
 app.UseCors("AllowAll");
-
-app.UseAuthentication(); // Kimlik Doðrulama
-app.UseAuthorization();  // Yetkilendirme
-
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 
-app.Run();
+try 
+{
+    Log.Information("Uygulama baÅŸlatÄ±lÄ±yor...");
+    app.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "Uygulama beklenmedik bir ÅŸekilde durduruldu.");
+}
+finally
+{
+    Log.CloseAndFlush();
+}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Car, LogOut, ClipboardList, Check, Clock, TrendingUp, Users, DollarSign, Plus, Search, ChevronDown, ChevronRight, Trash2, Settings, Loader2, AlertTriangle, Tag, UserCheck, Moon, Sun, Phone, Calendar } from "lucide-react";
+import { Car, LogOut, ClipboardList, Check, Clock, TrendingUp, Users, DollarSign, Plus, Search, ChevronDown, ChevronRight, Trash2, Settings, Loader2, AlertTriangle, Tag, UserCheck, Moon, Sun, Phone, Calendar, User } from "lucide-react";
 
 import NewOrderWizard from "./NewOrderWizard"; 
 import CalendarView from "../components/CalendarView";
@@ -92,7 +92,6 @@ const OrderList = ({ orders, onEdit, onDelete }) => {
                         <span className="font-medium">
                           {[order.brand, order.model, order.year].filter(Boolean).join(" ") || order.vehicle}
                         </span> 
-                        <span className="px-1 rounded border dark:bg-dark-hover dark:border-dark-border bg-gray-100 border-gray-200">#{order.id}</span>
                       </div>
                     </div>
                   </div>
@@ -140,6 +139,8 @@ const OrderList = ({ orders, onEdit, onDelete }) => {
                         <div className="grid grid-cols-2 gap-y-1 gap-x-4 text-sm">
                            <div className="text-gray-500">Plaka:</div> <div className="font-mono font-bold text-gray-800 dark:text-gray-200">{order.plate}</div>
                            <div className="text-gray-500">Marka/Model:</div> <div className="font-medium text-gray-800 dark:text-gray-200">{[order.brand, order.model].filter(Boolean).join(" ") || order.vehicle || "-"}</div>
+                           <div className="text-gray-500">Yıl:</div> <div className="font-medium text-gray-800 dark:text-gray-200">{order.year || "-"}</div>
+                           <div className="text-gray-500">Renk:</div> <div className="font-medium text-gray-800 dark:text-gray-200">{order.color || "-"}</div>
                         </div>
                       </div>
                     </div>
@@ -189,7 +190,7 @@ const OrderList = ({ orders, onEdit, onDelete }) => {
                             <div key={order.id} onClick={() => onEdit(order)} className="bg-white dark:bg-dark-card p-3 rounded-lg shadow-sm border border-gray-200 dark:border-dark-border hover:shadow-md cursor-pointer transition-all group">
                                 <div className="flex justify-between items-start mb-2">
                                     <span className="font-mono font-bold text-gray-800 dark:text-gray-100">{order.plate}</span>
-                                    <span className="text-xs font-bold text-gray-500">#{order.id}</span>
+                                    
                                 </div>
                                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-2 truncate">{order.customer}</p>
                                 <div className="flex justify-between items-center text-xs text-gray-500">
@@ -417,17 +418,17 @@ const Dashboard = ({ user, onLogout }) => {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {staff.map(p => (
-          <div key={p.id} className="border p-4 rounded-lg bg-white flex justify-between items-start group hover:shadow-md transition-shadow">
+          <div key={p.id} className="border p-4 rounded-lg bg-white dark:bg-dark-card dark:border-dark-border flex justify-between items-start group hover:shadow-md transition-shadow">
             <div className="flex items-center gap-3 cursor-pointer flex-1" onClick={() => onDetail(p)}>
-              <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-700 font-bold uppercase">
+              <div className="w-10 h-10 bg-indigo-100 dark:bg-indigo-900/30 rounded-full flex items-center justify-center text-indigo-700 dark:text-indigo-300 font-bold uppercase">
                 {/* İlk harfi al, yoksa 'U' koy */}
                 {p.name ? p.name.charAt(0) : "U"}
               </div>
               <div>
                 {/* İSİM BURADA GÖRÜNÜYOR */}
-                <h3 className="font-bold text-gray-800">{p.name || "İsimsiz"}</h3>
-                <p className="text-xs text-gray-500">{p.role || "Görev Yok"}</p>
-                <p className="text-xs text-green-600 font-bold mt-1">₺{p.salary?.toLocaleString()}</p>
+                <h3 className="font-bold text-gray-800 dark:text-gray-100">{p.name || "İsimsiz"}</h3>
+                <p className="text-xs text-gray-500 dark:text-gray-400">{p.role || "Görev Yok"}</p>
+                <p className="text-xs text-green-600 dark:text-green-400 font-bold mt-1">₺{p.salary?.toLocaleString()}</p>
               </div>
             </div>
             <button onClick={(e)=>{e.stopPropagation();onDelete(p.id)}} className="text-red-400 hover:text-red-600 p-2 rounded-full hover:bg-red-50">
@@ -485,7 +486,35 @@ const Dashboard = ({ user, onLogout }) => {
                 </button>
             </div>
         </div>
-        <div className="overflow-x-auto"><table className="w-full text-left"><thead className="bg-gray-50 text-gray-500 text-sm border-b"><tr>{["No","Tarih","Açıklama","Kategori","Tutar",""].map(h=><th key={h} className="p-3">{h}</th>)}</tr></thead><tbody className="divide-y text-sm">{combinedItems.map((item,idx)=>(<tr key={`${item.source}-${item.id}-${idx}`} className="hover:bg-gray-50"><td className="p-3 font-mono text-gray-400">#{item.id}</td><td className="p-3 text-gray-600">{item.date}</td><td className="p-3 font-medium">{item.title}</td><td className="p-3"><span className={`px-2 py-1 rounded text-xs ${item.type==="income"?"bg-green-100 text-green-800":"bg-red-100 text-red-800"}`}>{item.category}</span></td><td className={`p-3 font-bold ${item.type==="income"?"text-green-600":"text-red-600"}`}>{item.type==="income"?"+":"-"}₺{item.amount?.toLocaleString()}</td><td className="p-3 text-right"><button onClick={()=>item.source==='order'?onDeleteOrder(item.id):onDelete(item.id)} className="text-red-400 hover:text-red-600"><Trash2 size={16}/></button></td></tr>))}</tbody></table></div>
+        <div className="overflow-x-auto border rounded-lg dark:border-dark-border bg-white dark:bg-dark-card">
+            <table className="w-full text-left">
+                <thead className="bg-gray-50 dark:bg-dark-hover text-gray-500 dark:text-gray-400 text-sm border-b dark:border-dark-border">
+                    <tr>{["No","Tarih","Açıklama","Kategori","Tutar",""].map(h=><th key={h} className="p-3">{h}</th>)}</tr>
+                </thead>
+                <tbody className="divide-y dark:divide-dark-border text-sm">
+                    {combinedItems.map((item,idx)=>(
+                        <tr key={`${item.source}-${item.id}-${idx}`} className="hover:bg-gray-50 dark:hover:bg-dark-hover/50 transition-colors">
+                            <td className="p-3 font-mono text-gray-400 dark:text-gray-500">#{item.id}</td>
+                            <td className="p-3 text-gray-600 dark:text-gray-300">{item.date}</td>
+                            <td className="p-3 font-medium text-gray-800 dark:text-gray-200">{item.title}</td>
+                            <td className="p-3">
+                                <span className={`px-2 py-1 rounded text-xs ${item.type==="income"?"bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300":"bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"}`}>
+                                    {item.category}
+                                </span>
+                            </td>
+                            <td className={`p-3 font-bold ${item.type==="income"?"text-green-600 dark:text-green-400":"text-red-600 dark:text-red-400"}`}>
+                                {item.type==="income"?"+":"-"}₺{item.amount?.toLocaleString()}
+                            </td>
+                            <td className="p-3 text-right">
+                                <button onClick={()=>item.source==='order'?onDeleteOrder(item.id):onDelete(item.id)} className="text-red-400 hover:text-red-600 p-1 rounded hover:bg-red-50 dark:hover:bg-red-900/20">
+                                    <Trash2 size={16}/>
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
       </div>
     );
   };

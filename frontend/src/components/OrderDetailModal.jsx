@@ -118,12 +118,11 @@ const OrderDetailModal = ({ order, staff, onClose, onSave }) => {
               <div>
                 <h3 className="font-bold text-xl text-gray-800 dark:text-gray-100 flex items-center gap-2">
                     {order.plate}
-                    <span className="text-xs font-normal px-2 py-0.5 rounded-full bg-gray-200 dark:bg-dark-hover text-gray-600 dark:text-gray-300">#{order.id}</span>
                 </h3>
                 <div className="flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400 mt-1">
                     <span className="flex items-center gap-1"><Calendar size={14}/> {new Date(order.date).toLocaleDateString("tr-TR")}</span>
                     <span className="flex items-center gap-1"><User size={14}/> {order.customerName}</span>
-                    <span className="flex items-center gap-1"><Disc size={14}/> {order.vehicle}</span>
+                    <span className="flex items-center gap-1"><Disc size={14}/> {order.vehicle} • {order.year} • {order.color}</span>
                 </div>
               </div>
           </div>
