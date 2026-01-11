@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { X, Save, User, FileText, Activity, Check, DollarSign, Trash2, Plus, Calendar, Disc } from "lucide-react"; 
 import { orderService } from "../api";
 
-const OrderDetailModal = ({ order, staff, onClose, onSave }) => {
+const OrderDetailModal = ({ order, staff, user, onClose, onSave }) => {
   // Statü Helper
   const STATUS_LABELS = {
     0: "Bekliyor",
