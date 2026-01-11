@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BaglanCarCare.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+94d7b9f1fb7319630afdd52fe8b2ae6bd43f227b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2b7aac2224b6b71ee87488996cb714615cdf33dd")]
 [assembly: System.Reflection.AssemblyProductAttribute("BaglanCarCare.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BaglanCarCare.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

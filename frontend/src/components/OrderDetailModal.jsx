@@ -187,17 +187,44 @@ const OrderDetailModal = ({ order, staff, onClose, onSave }) => {
                                     </td>
                                     <td className="p-3 text-gray-500 dark:text-gray-400 text-xs">{svc.part}</td>
                                     <td className="p-3">
-                                        <input 
-                                            type="number" 
-                                            className="w-full bg-transparent border-b border-transparent focus:border-blue-500 outline-none text-right font-mono"
-                                            value={svc.price}
-                                            onChange={(e) => handleUpdateServicePrice(idx, e.target.value)}
-                                        />
+                                        {user?.role === "Admin" ? (
+                                            <input 
+                                                type="number" 
+                                                className="w-full bg-transparent border-b border-transparent focus:border-blue-500 outline-none text-right font-mono"
+                                                value={svc.price}
+                                                onChange={(e) => handleUpdateServicePrice(idx, e.target.value)}
+                                            />
+                                        ) : (
+                                            <button onClick={() => {
+                                                const newPrice = prompt(`"${svc.product}" için yeni fiyatı giriniz:`, svc.price);
+                                                if (newPrice && newPrice !== svc.price) {
+                                                    const note = prompt("Fiyat değişikliği için açıklama (opsiyonel):");
+                                                    orderService.requestPriceChange(order.id, { serviceName: svc.product, oldPrice: svc.price, newPrice, note })
+                                                        .then(() => alert("Fiyat değişim talebi iletildi."))
+                                                        .catch(e => alert("Hata: " + e.message));
+                                                }
+                                            }} className="w-full text-right font-mono hover:text-blue-600 underline decoration-dashed underline-offset-4 cursor-pointer">
+                                                {svc.price}
+                                            </button>
+                                        )}
                                     </td>
                                     <td className="p-3 text-right">
-                                        <button onClick={() => handleDeleteService(idx)} className="text-gray-400 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100">
-                                            <Trash2 size={16}/>
-                                        </button>
+                                        {user?.role === "Admin" ? (
+                                            <button onClick={() => handleDeleteService(idx)} className="text-gray-400 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100">
+                                                <Trash2 size={16}/>
+                                            </button>
+                                        ) : (
+                                            <button onClick={() => {
+                                                const note = prompt(`"${svc.product}" silinecek. Açıklama giriniz:`);
+                                                if (note !== null) {
+                                                    orderService.requestServiceDelete(order.id, { serviceName: svc.product, note })
+                                                        .then(() => alert("Silme talebi iletildi."))
+                                                        .catch(e => alert("Hata: " + e.message));
+                                                }
+                                            }} className="text-gray-400 hover:text-orange-500 transition-colors opacity-0 group-hover:opacity-100" title="Silme Talebi Oluştur">
+                                                <AlertTriangle size={16}/>
+                                            </button>
+                                        )}
                                     </td>
                                 </tr>
                             ))}
@@ -214,7 +241,7 @@ const OrderDetailModal = ({ order, staff, onClose, onSave }) => {
                         </tfoot>
                     </table>
                     
-                    {/* HIZLI EKLEME ALANI */}
+                    {/* HIZLI EKLEME ALANI - Staff da ekleyebilir, sadece silemez/düzenleyemez */}
                     <div className="p-2 bg-gray-50 dark:bg-dark-hover/50 border-t dark:border-dark-border flex gap-2">
                         <input 
                             placeholder="Yeni işlem adı..." 
@@ -229,7 +256,7 @@ const OrderDetailModal = ({ order, staff, onClose, onSave }) => {
                             className="w-24 px-3 py-2 rounded border border-gray-200 dark:border-dark-border dark:bg-dark-card dark:text-white text-sm focus:ring-1 focus:ring-blue-500 outline-none"
                             value={newService.price} 
                             onChange={e=>setNewService({...newService, price:e.target.value})} 
-                             onKeyDown={e => e.key === 'Enter' && handleAddService()}
+                            onKeyDown={e => e.key === 'Enter' && handleAddService()}
                         />
                         <button onClick={handleAddService} className="bg-blue-600 hover:bg-blue-700 text-white px-3 rounded flex items-center justify-center">
                             <Plus size={18}/>

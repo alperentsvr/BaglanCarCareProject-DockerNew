@@ -42,7 +42,9 @@ namespace BaglanCarCare.Application.Services
                 TargetEntityName = request.TargetEntityName,
                 TargetId = request.TargetId,
                 Note = request.Note,
-                Status = "Pending"
+                Status = "Pending",
+                RequestType = request.RequestType,
+                Details = request.Details
             };
             await _repo.AddAsync(entity);
             return new ServiceResponse<int>(entity.Id, "Silme talebi oluşturuldu. Admin onayı bekleniyor.");
@@ -59,7 +61,9 @@ namespace BaglanCarCare.Application.Services
                 TargetId = x.TargetId,
                 Note = x.Note,
                 Status = x.Status,
-                CreatedDate = x.CreatedDate
+                CreatedDate = x.CreatedDate,
+                RequestType = x.RequestType,
+                Details = x.Details
             }).OrderByDescending(x => x.CreatedDate).ToList();
 
             return new ServiceResponse<List<DeletionRequestListDto>>(dtoList);

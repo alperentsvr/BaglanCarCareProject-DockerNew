@@ -743,7 +743,7 @@ const Dashboard = ({ user, onLogout }) => {
               {/* TALEPLER TABLOSU */}
               {activeTab === "requests" && (
                 <div>
-                   <h2 className="text-lg font-bold mb-4">Silme Talepleri</h2>
+                   <h2 className="text-lg font-bold mb-4">Silme ve Değişiklik Talepleri</h2>
                    {requests.length === 0 ? <p className="text-gray-500">Bekleyen talep yok.</p> : (
                      <div className="space-y-3">
                        {requests.map(r => (
@@ -751,19 +751,16 @@ const Dashboard = ({ user, onLogout }) => {
                             <div className="flex-1">
                                <p className="font-bold text-red-600 flex items-center gap-2">
                                   <AlertTriangle size={16} />
-                                  {(() => {
-                                      // Kullanıcı ismini bulmaya çalış
-                                      const reqUser = users.find(u => u.id === r.requesterId || u.username === r.requesterName);
-                                      return reqUser ? reqUser.fullName || reqUser.username : (r.requesterName || "Bilinmeyen Kullanıcı");
-                                  })()} 
-                                  <span className="font-normal text-gray-600 dark:text-gray-400">silme talebinde bulundu.</span>
+                                  {r.requesterName || "Bilinmeyen Kullanıcı"}
+                                  <span className="font-normal text-gray-600 dark:text-gray-400">bir talepte bulundu.</span>
                                </p>
                                
                                <div className="mt-2 space-y-1">
                                   <p className="text-sm text-gray-800 dark:text-gray-200">
-                                      <span className="font-semibold">Hedef:</span> 
-                                      {r.targetEntityName === "Order" ? " İş Emri" : r.targetEntityName === "Expense" ? " Gelir/Gider" : " Personel"}
-                                      <span className="font-mono bg-white dark:bg-dark-bg px-1 rounded ml-1 border dark:border-dark-border">#{r.targetId}</span>
+                                      <span className="font-semibold">Tür:</span> {r.requestType === "OrderDelete" ? "Sipariş Silme" : r.requestType === "ServiceDelete" ? "Hizmet Silme" : r.requestType === "PriceChange" ? "Fiyat Değişikliği" : r.targetEntityName}
+                                  </p>
+                                  <p className="text-sm text-gray-800 dark:text-gray-200">
+                                      <span className="font-semibold">Detay:</span> {r.details || `Hedef ID: #${r.targetId}`}
                                   </p>
                                   {r.note && (
                                     <p className="text-sm text-gray-600 dark:text-gray-400 italic bg-white dark:bg-dark-bg/50 p-2 rounded border border-gray-100 dark:border-dark-border/50">
@@ -774,7 +771,7 @@ const Dashboard = ({ user, onLogout }) => {
                                       <Clock size={12}/> 
                                       {(() => {
                                           try {
-                                              const d = new Date(r.requestedDate || r.requestDate || r.date);
+                                              const d = new Date(r.createdDate || r.date || r.requestDate);
                                               return isNaN(d.getTime()) ? "Tarih Hatası" : d.toLocaleString('tr-TR');
                                           } catch { return "Tarih Yok"; }
                                       })()}
@@ -799,11 +796,16 @@ const Dashboard = ({ user, onLogout }) => {
           )}
         </div>
       </div>
-      {showWizard && <NewOrderWizard onClose={()=>setShowWizard(false)} onSuccess={()=>{fetchData();setShowWizard(false)}}/>}
-      {showOrderDetail && <OrderDetailModal order={showOrderDetail} staff={staff} onClose={()=>setShowOrderDetail(null)} onSave={()=>{fetchData();setShowOrderDetail(null)}}/>}
-      {showStaffDetail && <StaffDetailModal person={showStaffDetail} orders={orders} onClose={() => setShowStaffDetail(null)} />}
-      {showAddStaff && <AddStaffModal onClose={() => setShowAddStaff(false)} onAdd={handleAddStaff} />}
-      {showAddExpense && <AddTransactionModal onClose={() => setShowAddExpense(false)} onAdd={handleAddExpense} />}
+      {showWizard && <NewOrderWizard onClose={()=>setShowWizard(false)} user={user} staff={staff} onSave={()=>{fetchData();setShowWizard(false)}}/>}
+      {showOrderDetail && <OrderDetailModal order={showOrderDetail} staff={staff} user={user} onClose={()=>setShowOrderDetail(null)} onSave={async (updatedOrder) => {
+          try {
+             await orderService.update(updatedOrder);
+             fetchData();
+          } catch(e) { alert("Hata: " + e.message); }
+      }} />}
+      {showStaffDetail && <StaffDetailModal person={showStaffDetail} orders={orders} user={user} onClose={() => setShowStaffDetail(null)} onDelete={handleDeleteStaff} />}
+      {showAddStaff && <AddStaffModal onClose={() => setShowAddStaff(false)} user={user} onSave={handleAddStaff} />}
+      {showAddExpense && <AddTransactionModal onClose={() => setShowAddExpense(false)} onSave={handleAddExpense} />}
 
       {/* YENİ KULLANICI MODALI */}
       {showAddUser && (

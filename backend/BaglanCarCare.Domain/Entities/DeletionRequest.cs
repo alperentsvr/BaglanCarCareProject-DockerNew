@@ -12,5 +12,9 @@ namespace BaglanCarCare.Domain.Entities
         public string Note { get; set; } // "Yanlış giriş yaptım" vb.
         public string Status { get; set; } = "Pending"; // Pending, Approved, Rejected
         public DateTime? ProcessedDate { get; set; }
+
+        // YENİ ALANLAR
+        public string RequestType { get; set; } = "Delete"; // "Delete", "PriceChange", "ServiceDelete"
+        public string Details { get; set; } // "Hizmet: Yağ Değişimi, Yeni Fiyat: 500"
     }
 }

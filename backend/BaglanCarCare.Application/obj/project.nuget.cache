@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "rmO4pvwQSJ8=",
+  "dgSpecHash": "E4GqvOQ8A7c=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Alperen\\Desktop\\BaglanCarCareProject-DockerNew\\backend\\BaglanCarCare.Application\\BaglanCarCare.Application.csproj",
+  "projectFilePath": "C:\\Users\\Alperen\\Desktop\\bağlanCarCare\\backend\\BaglanCarCare.Application\\BaglanCarCare.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Alperen\\.nuget\\packages\\automapper\\15.1.0\\automapper.15.1.0.nupkg.sha512",
     "C:\\Users\\Alperen\\.nuget\\packages\\microsoft.entityframeworkcore\\8.0.11\\microsoft.entityframeworkcore.8.0.11.nupkg.sha512",

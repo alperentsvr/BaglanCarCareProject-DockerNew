@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "UQeh47ymJb8=",
+  "dgSpecHash": "nH3zmvc6xpU=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Alperen\\Desktop\\BaglanCarCareProject-DockerNew\\backend\\BaglanCarCare.WebApi\\BaglanCarCare.WebApi.csproj",
+  "projectFilePath": "C:\\Users\\Alperen\\Desktop\\bağlanCarCare\\backend\\BaglanCarCare.WebApi\\BaglanCarCare.WebApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Alperen\\.nuget\\packages\\automapper\\15.1.0\\automapper.15.1.0.nupkg.sha512",
     "C:\\Users\\Alperen\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",

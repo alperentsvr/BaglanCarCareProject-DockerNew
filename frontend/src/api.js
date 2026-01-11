@@ -52,6 +52,10 @@ export const orderService = {
   update: (data) => api.put("/api/siparis/guncelle", data),
   // SİLME FONKSİYONU BURADA:
   delete: (id, note = "") => api.delete(`/api/siparis/${id}?note=${encodeURIComponent(note)}`),
+
+  // YENİ TALEP FONKSİYONLARI
+  requestServiceDelete: (orderId, data) => api.post(`/api/siparis/${orderId}/request-service-delete`, data),
+  requestPriceChange: (orderId, data) => api.post(`/api/siparis/${orderId}/request-price-change`, data),
 };
 
 export const personnelService = {

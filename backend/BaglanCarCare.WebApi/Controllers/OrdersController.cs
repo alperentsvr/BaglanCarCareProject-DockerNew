@@ -43,11 +43,51 @@ namespace BaglanCarCare.WebApi.Controllers
                 { 
                     TargetEntityName = "Order", 
                     TargetId = id, 
-                    Note = !string.IsNullOrEmpty(note) ? note : "Personel talebi" 
+                    Note = !string.IsNullOrEmpty(note) ? note : "Personel talebi",
+                    RequestType = "OrderDelete",
+                    Details = $"Sipariş #{id} silme talebi"
                 };
-                // 0 as RequesterId placeholder
+                // 0 as RequesterId placeholder (Gerçek sistemde User.Id olmalı)
                 return Ok(await _deletionRequestService.CreateRequestAsync(req, 0, username));
             }
+        }
+
+        [HttpPost("{id}/request-service-delete")]
+        public async Task<IActionResult> RequestServiceDelete(int id, [FromBody] dynamic data)
+        {
+            var username = User.Identity?.Name ?? "Bilinmiyor";
+            string serviceName = data.GetProperty("serviceName").ToString();
+            string note = data.GetProperty("note").ToString();
+            
+            var req = new CreateDeletionRequestDto 
+            { 
+                TargetEntityName = "Order", 
+                TargetId = id, 
+                Note = note,
+                RequestType = "ServiceDelete",
+                Details = $"Hizmet Silme: {serviceName}"
+            };
+            return Ok(await _deletionRequestService.CreateRequestAsync(req, 0, username));
+        }
+
+        [HttpPost("{id}/request-price-change")]
+        public async Task<IActionResult> RequestPriceChange(int id, [FromBody] dynamic data)
+        {
+            var username = User.Identity?.Name ?? "Bilinmiyor";
+            string serviceName = data.GetProperty("serviceName").ToString();
+            string oldPrice = data.GetProperty("oldPrice").ToString();
+            string newPrice = data.GetProperty("newPrice").ToString();
+            string note = data.GetProperty("note").ToString();
+
+            var req = new CreateDeletionRequestDto 
+            { 
+                TargetEntityName = "Order", 
+                TargetId = id, 
+                Note = note,
+                RequestType = "PriceChange",
+                Details = $"Fiyat Değişimi: {serviceName} ({oldPrice} -> {newPrice})"
+            };
+            return Ok(await _deletionRequestService.CreateRequestAsync(req, 0, username));
         }
 
         [HttpGet("ara/{text}")]
