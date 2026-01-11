@@ -4,9 +4,17 @@ import { orderService } from "../api";
 
 const OrderDetailModal = ({ order, staff, onClose, onSave }) => {
   // Statü Helper
+  const STATUS_LABELS = {
+    0: "Bekliyor",
+    1: "İşlemde",
+    2: "Tamamlandı",
+    3: "İptal"
+  };
+
   const getStatusId = (statusStr) => {
-    if (!statusStr) return 0;
-    const s = statusStr.toLowerCase();
+    if (statusStr === undefined || statusStr === null) return 0;
+    if (typeof statusStr === "number") return statusStr;
+    const s = String(statusStr).toLowerCase();
     if (s.includes("bekliyor") || s.includes("pending")) return 0;
     if (s.includes("işlemde") || s.includes("progress")) return 1;
     if (s.includes("tamam") || s.includes("completed")) return 2;
@@ -15,7 +23,7 @@ const OrderDetailModal = ({ order, staff, onClose, onSave }) => {
   };
 
   const [personnelIds, setPersonnelIds] = useState(order.personnelIds || []);
-  const [statusId, setStatusId] = useState(0);
+  const [statusId, setStatusId] = useState(getStatusId(order.status));
   const [description, setDescription] = useState(order.description || "");
   const [isPaid, setIsPaid] = useState(order.isPaid || false); 
   const [loading, setLoading] = useState(false);
@@ -53,7 +61,7 @@ const OrderDetailModal = ({ order, staff, onClose, onSave }) => {
         await onSave({
             ...order,
             personnelIds,
-            status: statusId, 
+            status: STATUS_LABELS[statusId], 
             description,
             isPaid,
             services,
