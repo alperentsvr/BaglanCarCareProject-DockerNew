@@ -46,11 +46,11 @@ const OrderList = ({ orders, onEdit, onDelete }) => {
         </div>
         
         {/* Görünüm Değiştirici */}
-        <div className="flex bg-gray-100 dark:bg-dark-card p-1 rounded-lg border border-gray-200 dark:border-dark-border">
-            <button onClick={() => setViewMode("list")} className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all flex items-center gap-2 ${viewMode === "list" ? "bg-white dark:bg-dark-bg shadow-sm text-blue-600 dark:text-brand" : "text-gray-500 hover:text-gray-700 dark:text-gray-400"}`}>
+        <div className="flex w-full md:w-auto bg-gray-100 dark:bg-dark-card p-1 rounded-lg border border-gray-200 dark:border-dark-border">
+            <button onClick={() => setViewMode("list")} className={`flex-1 md:flex-none justify-center px-4 py-1.5 rounded-md text-sm font-medium transition-all flex items-center gap-2 ${viewMode === "list" ? "bg-white dark:bg-dark-bg shadow-sm text-blue-600 dark:text-brand" : "text-gray-500 hover:text-gray-700 dark:text-gray-400"}`}>
                 <ClipboardList size={16}/> Liste
             </button>
-            <button onClick={() => setViewMode("board")} className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all flex items-center gap-2 ${viewMode === "board" ? "bg-white dark:bg-dark-bg shadow-sm text-blue-600 dark:text-brand" : "text-gray-500 hover:text-gray-700 dark:text-gray-400"}`}>
+            <button onClick={() => setViewMode("board")} className={`flex-1 md:flex-none justify-center px-4 py-1.5 rounded-md text-sm font-medium transition-all flex items-center gap-2 ${viewMode === "board" ? "bg-white dark:bg-dark-bg shadow-sm text-blue-600 dark:text-brand" : "text-gray-500 hover:text-gray-700 dark:text-gray-400"}`}>
                 <Tag size={16}/> Pano
             </button>
         </div>
@@ -668,11 +668,12 @@ const Dashboard = ({ user, onLogout }) => {
               {/* KULLANICILAR TABLOSU */}
               {activeTab === "users" && (
                 <div>
-                  <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-lg font-bold">Yetkili Kullanıcılar</h2>
-                    <button onClick={() => setShowAddUser(true)} className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center gap-2"><Plus size={18} /> Yeni Kullanıcı</button>
-                  </div>
-                  <table className="w-full text-left">
+                   <div className="flex justify-between items-center mb-4">
+                     <h2 className="text-lg font-bold">Yetkili Kullanıcılar</h2>
+                     <button onClick={() => setShowAddUser(true)} className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 flex items-center gap-2"><Plus size={18} /> <span className="hidden md:inline">Yeni Kullanıcı</span></button>
+                   </div>
+                   <div className="overflow-x-auto border rounded-lg dark:border-dark-border bg-white dark:bg-dark-card">
+                   <table className="w-full text-left min-w-[600px]">
                     <thead className="bg-gray-50 dark:bg-dark-hover text-gray-500 text-sm border-b">
                         <tr><th className="p-3">ID</th><th className="p-3">Kullanıcı Adı</th><th className="p-3">Tam İsim</th><th className="p-3">Rol</th><th className="p-3"></th></tr>
                     </thead>
@@ -691,6 +692,7 @@ const Dashboard = ({ user, onLogout }) => {
                       ))}
                     </tbody>
                   </table>
+                  </div>
                 </div>
               )}
 

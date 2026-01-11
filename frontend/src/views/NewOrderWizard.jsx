@@ -188,7 +188,7 @@ const NewOrderWizard = ({ onClose, onSuccess }) => {
   const renderStep1 = () => (
     <div className="space-y-4">
       <h3 className="font-bold text-lg flex items-center gap-2 text-gray-800 dark:text-gray-200"><Car size={20} className="text-blue-600 dark:text-brand"/> Müşteri ve Araç</h3>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <input className="border p-3 rounded-lg outline-none transition-colors
           bg-white border-gray-300 text-gray-900 focus:ring-blue-500
           dark:bg-dark-bg dark:border-dark-border dark:text-white dark:focus:ring-brand dark:placeholder-gray-500" placeholder="Plaka (06ABC123)" 
@@ -200,7 +200,7 @@ const NewOrderWizard = ({ onClose, onSuccess }) => {
           bg-white border-gray-300 text-gray-900 focus:ring-blue-500
           dark:bg-dark-bg dark:border-dark-border dark:text-white dark:focus:ring-brand dark:placeholder-gray-500" placeholder="Telefon (5XX...)" 
           value={formData.customerPhone} onChange={e => handleChange("customerPhone", e.target.value)} />
-        <input className="border p-3 rounded-lg outline-none transition-colors col-span-2
+        <input className="border p-3 rounded-lg outline-none transition-colors col-span-1 md:col-span-2
           bg-white border-gray-300 text-gray-900 focus:ring-blue-500
           dark:bg-dark-bg dark:border-dark-border dark:text-white dark:focus:ring-brand dark:placeholder-gray-500" placeholder="Müşteri Adı Soyadı" 
           value={formData.customerName} onChange={e => handleChange("customerName", e.target.value)} />
@@ -233,26 +233,26 @@ const NewOrderWizard = ({ onClose, onSuccess }) => {
         : [];
 
     return (
-      <div className="h-[500px] flex gap-4">
+      <div className="h-auto md:h-[500px] flex flex-col md:flex-row gap-4">
         {/* SOL: KATEGORİ LİSTESİ */}
-        <div className="w-1/4 border-r pr-2 space-y-2 overflow-y-auto border-gray-200 dark:border-dark-border">
+        <div className="w-full md:w-1/4 border-b md:border-b-0 md:border-r pb-2 md:pb-0 md:pr-2 flex flex-row md:flex-col gap-2 overflow-x-auto md:overflow-y-auto md:overflow-x-hidden border-gray-200 dark:border-dark-border">
           {categories.map(cat => (
             <button key={cat.id} 
               onClick={() => { setActiveCategory(cat); setActiveProduct(null); setSelectedVariant(null); }}
-              className={`w-full text-left p-3 rounded-lg font-medium transition-colors 
+              className={`flex-shrink-0 whitespace-nowrap md:whitespace-normal w-auto md:w-full text-left p-3 rounded-lg font-medium transition-colors 
               ${activeCategory?.id === cat.id 
                   ? "bg-blue-600 text-white dark:bg-brand dark:text-white" 
-                  : "text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-dark-hover"}`}>
+                  : "bg-gray-50 md:bg-transparent text-gray-600 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-dark-hover"}`}>
               {cat.name}
             </button>
           ))}
         </div>
 
         {/* ORTA: ÜRÜN VE VARYANT SEÇİMİ */}
-        <div className="flex-1 overflow-y-auto pr-2">
+        <div className="flex-1 overflow-y-auto pr-0 md:pr-2 min-h-[300px] md:min-h-0">
           {activeCategory ? (
             <div>
-              <h4 className="font-bold mb-3 text-gray-700 dark:text-brand">{activeCategory.name} Ürünleri</h4>
+              <h4 className="font-bold mb-3 text-gray-700 dark:text-brand sticky top-0 bg-white dark:bg-dark-bg/95 z-10 py-2">{activeCategory.name} Ürünleri</h4>
               
               {/* Ürün Listesi */}
                <div className="grid grid-cols-1 gap-3 mb-6">
@@ -350,15 +350,15 @@ const NewOrderWizard = ({ onClose, onSuccess }) => {
                 </div>
               )}
             </div>
-          ) : <div className="text-gray-400 text-center mt-20 flex flex-col items-center"><ChevronLeft className="mb-2"/> Lütfen soldan bir kategori seçin</div>}
+          ) : <div className="text-gray-400 text-center mt-20 flex flex-col items-center"><ChevronLeft className="mb-2 rotate-90 md:rotate-0"/> Lütfen {window.innerWidth < 768 ? 'yukarıdan' : 'soldan'} bir kategori seçin</div>}
         </div>
 
         {/* SAĞ: SEÇİLENLER ÖZETİ */}
-        <div className="w-1/4 border-l pl-2 flex flex-col rounded-r-lg transition-colors
-          border-gray-200 bg-gray-50
+        <div className="w-full md:w-1/4 border-t md:border-t-0 md:border-l pt-4 md:pt-0 pl-0 md:pl-2 flex flex-col rounded-r-lg transition-colors
+          border-gray-200 bg-gray-50 md:bg-gray-50/50
           dark:border-dark-border dark:bg-dark-bg/30">
           <h4 className="font-bold mb-2 p-2 border-b text-gray-800 border-gray-200 dark:border-dark-border dark:text-gray-200">Seçilen Hizmetler</h4>
-          <div className="flex-1 overflow-y-auto space-y-2 p-2">
+          <div className="flex-1 overflow-y-auto space-y-2 p-2 max-h-[200px] md:max-h-none">
             {formData.selectedServices.map((item, i) => (
               <div key={i} className="p-3 rounded shadow-sm border text-sm relative group animate-fade-in transition-colors
                 bg-white border-gray-200
@@ -491,7 +491,8 @@ const NewOrderWizard = ({ onClose, onSuccess }) => {
   // ADIM 4: DETAYLAR (Eski Step 3)
   const renderStep4 = () => (
     <div className="space-y-6">
-      <div className="grid grid-cols-2 gap-6">
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         
         {/* SOL: PERSONEL SEÇİMİ */}
         <div className="space-y-4">
@@ -579,15 +580,15 @@ const NewOrderWizard = ({ onClose, onSuccess }) => {
   );
 
   return (
-    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4 backdrop-blur-sm">
-      <div className="w-full max-w-5xl rounded-2xl shadow-2xl h-[90vh] flex flex-col overflow-hidden border
+    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-0 md:p-4 backdrop-blur-sm">
+      <div className="w-full h-full md:max-w-5xl md:h-[90vh] md:rounded-2xl shadow-2xl flex flex-col overflow-hidden border
         bg-white border-gray-200
         dark:bg-dark-bg dark:border-dark-border">
         {/* HEADER */}
-        <div className="p-5 border-b flex justify-between items-center
+        <div className="p-4 md:p-5 border-b flex justify-between items-center
           bg-gray-50 border-gray-200
           dark:bg-dark-card dark:border-dark-border">
-          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Yeni İş Emri Oluştur</h2>
+          <h2 className="text-xl md:text-2xl font-bold text-gray-800 dark:text-gray-100">Yeni İş Emri Oluştur</h2>
           <button onClick={onClose} className="p-2 rounded-full transition-colors hover:bg-red-50 text-gray-500 hover:text-red-500 dark:hover:bg-red-400/20 dark:text-gray-400 dark:hover:text-red-400"><X /></button>
         </div>
 
@@ -596,21 +597,21 @@ const NewOrderWizard = ({ onClose, onSuccess }) => {
           bg-white border-gray-200
           dark:bg-dark-card dark:border-dark-border">
           {[1, 2, 3, 4].map(i => (
-            <div key={i} className={`flex items-center ${i < 4 ? "after:content-[''] after:w-16 after:h-1 after:mx-2 after:rounded after:bg-gray-200 dark:after:bg-dark-border" : ""}`}>
-              <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold transition-all shadow-md 
+            <div key={i} className={`flex items-center ${i < 4 ? "after:content-[''] after:w-8 md:after:w-16 after:h-1 after:mx-2 after:rounded after:bg-gray-200 dark:after:bg-dark-border" : ""}`}>
+              <div className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center font-bold transition-all shadow-md text-sm md:text-base
                 ${step === i 
                     ? "bg-blue-600 text-white scale-110 dark:bg-brand" 
                     : step > i 
                         ? "bg-green-500 text-white dark:bg-green-600" 
                         : "bg-gray-200 text-gray-500 dark:bg-dark-hover dark:text-gray-500"}`}>
-                {step > i ? <Check size={20}/> : i}
+                {step > i ? <Check size={16}/> : i}
               </div>
             </div>
           ))}
         </div>
 
         {/* CONTENT */}
-        <div className="flex-1 p-6 overflow-y-auto bg-white dark:bg-dark-bg/50">
+        <div className="flex-1 p-4 md:p-6 overflow-y-auto bg-white dark:bg-dark-bg/50">
           {step === 1 && renderStep1()}
           {step === 2 && renderStep2()}
           {step === 3 && renderStep3()}
@@ -618,28 +619,28 @@ const NewOrderWizard = ({ onClose, onSuccess }) => {
         </div>
 
         {/* FOOTER */}
-        <div className="p-5 border-t flex justify-between
+        <div className="p-4 md:p-5 border-t flex justify-between
           bg-white border-gray-200
           dark:bg-dark-card dark:border-dark-border">
-          <button onClick={() => step > 1 ? setStep(step - 1) : onClose()} className="px-6 py-3 border rounded-lg flex items-center gap-2 font-medium transition-colors
+          <button onClick={() => step > 1 ? setStep(step - 1) : onClose()} className="px-4 py-3 md:px-6 border rounded-lg flex items-center gap-2 font-medium transition-colors
             border-gray-300 text-gray-700 hover:bg-gray-100
             dark:border-dark-border dark:text-gray-300 dark:hover:bg-dark-hover">
-            <ChevronLeft size={18}/> Geri
+            <ChevronLeft size={18}/> <span className="hidden md:inline">Geri</span>
           </button>
           
           {step < 4 ? (
             <button onClick={() => setStep(step + 1)} disabled={step === 1 && !formData.plateNumber} 
-              className="px-8 py-3 rounded-lg flex items-center gap-2 font-bold shadow-lg disabled:opacity-50 disabled:shadow-none transition-all
+              className="px-6 py-3 md:px-8 rounded-lg flex items-center gap-2 font-bold shadow-lg disabled:opacity-50 disabled:shadow-none transition-all
               bg-blue-600 text-white hover:bg-blue-700 shadow-blue-200
               dark:bg-brand dark:text-white dark:hover:bg-brand-dark dark:shadow-brand/20">
-              İleri <ChevronRight size={18}/>
+              <span className="hidden md:inline">İleri</span> <ChevronRight size={18}/>
             </button>
           ) : (
             <button onClick={handleSubmit} disabled={loading}
-              className="px-10 py-3 rounded-lg font-bold shadow-lg flex items-center gap-2 transition-all
+              className="px-6 py-3 md:px-10 rounded-lg font-bold shadow-lg flex items-center gap-2 transition-all
               bg-green-600 text-white hover:bg-green-700 shadow-green-200
               dark:bg-green-600 dark:hover:bg-green-700 dark:shadow-green-900/50">
-              {loading ? <Loader2 className="animate-spin"/> : <Check size={20}/>} {loading ? "Kaydediliyor..." : "Siparişi Tamamla"}
+              {loading ? <Loader2 className="animate-spin"/> : <Check size={20}/>} {loading ? "Kaydediliyor..." : "Tamamla"}
             </button>
           )}
         </div>
