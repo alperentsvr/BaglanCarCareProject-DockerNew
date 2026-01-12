@@ -62,8 +62,8 @@ namespace BaglanCarCare.Application.Services
                 Note = x.Note,
                 Status = x.Status,
                 CreatedDate = x.CreatedDate,
-                RequestType = x.RequestType,
-                Details = x.Details
+                RequestType = x.RequestType ?? "Delete",
+                Details = x.Details ?? ""
             }).OrderByDescending(x => x.CreatedDate).ToList();
 
             return new ServiceResponse<List<DeletionRequestListDto>>(dtoList);
