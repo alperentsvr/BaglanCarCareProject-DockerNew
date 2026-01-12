@@ -58,6 +58,7 @@ namespace BaglanCarCare.Application.Services
                     TransactionStatus.Cancelled => "İptal",
                     _ => "Bilinmiyor"
                 },
+                StatusId = (int)x.Status,
                 Date = x.TransactionDate,
 
                 // --- 1. DÜZELTME: İsim Birleştirme ve Null Kontrolü ---
@@ -168,7 +169,7 @@ namespace BaglanCarCare.Application.Services
         public async Task<ServiceResponse<bool>> UpdateOrderDetailsAsync(UpdateOrderDto r)
         {
             var list = await _transRepo.GetAllAsync();
-            var transaction = list.FirstOrDefault(x => x.Id == r.OrderId);
+            var transaction = list.FirstOrDefault(x => x.Id == r.Id);
 
             if (transaction == null)
                 return new ServiceResponse<bool>("Sipariş bulunamadı.", false);

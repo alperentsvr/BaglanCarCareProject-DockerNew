@@ -51,6 +51,7 @@ namespace BaglanCarCare.Application.DTOs
         public string Plate { get; set; } = string.Empty;
         public decimal TotalPrice { get; set; }
         public string Status { get; set; } = string.Empty;
+        public int StatusId { get; set; } // YENİ: Frontend'in enum id'sini bilmesi için
         public string StatusTr { get; set; } = string.Empty;
         public bool IsPaid { get; set; }
         public DateTime Date { get; set; }
@@ -67,7 +68,7 @@ namespace BaglanCarCare.Application.DTOs
     // 3. UPDATE (Aynen Kalabilir)
     public class UpdateOrderDto
     {
-        public int OrderId { get; set; }
+        public int Id { get; set; } // DÜZELTME: Frontend 'id' gönderiyor, 'OrderId' değil.
         public string? Description { get; set; }
         public int StatusId { get; set; }
         public List<int> PersonnelIds { get; set; } = new();
