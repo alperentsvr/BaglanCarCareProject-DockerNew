@@ -97,31 +97,37 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // 6. DB Migration & Seed
-/* 
-   ACİL MÜDAHALE:
-   Render'ın "Port Timeout" hatasını kesin olarak çözmek için
-   otomatik veritabanı kurulumunu kapattık.
-   Uygulama artık veritabanını beklemeden anında açılacak.
-   
-   Tabloları kendi bilgisayarımızdan güncelleyeceğiz.
-*/
-/*
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     try
     {
         var context = services.GetRequiredService<BaglanCarCareDbContext>();
-        context.Database.Migrate();
-        // Seed metodunun varlığını loglardan teyit ettik
-        await BaglanCarCare.Persistence.Seeds.ContextSeed.SeedAsync(context); 
+        // Render üzerinde veritabanı bağlantısı bazen gecikebilir, basit bir retry mekanizması
+        int retries = 3;
+        while (retries > 0)
+        {
+            try
+            {
+                context.Database.Migrate();
+                await BaglanCarCare.Persistence.Seeds.ContextSeed.SeedAsync(context);
+                Log.Information("Veritabanı migration ve seed işlemleri başarıyla tamamlandı.");
+                break;
+            }
+            catch (Exception dbEx)
+            {
+                retries--;
+                Log.Warning(dbEx, $"Veritabanı bağlantısı kurulamadı. Kalan deneme: {retries}");
+                if (retries == 0) throw;
+                System.Threading.Thread.Sleep(2000); // 2 saniye bekle
+            }
+        }
     }
     catch (Exception ex)
     {
-        Log.Error(ex, "Veritabanı migration/seed sırasında hata oluştu.");
+        Log.Error(ex, "Veritabanı migration/seed sırasında kritik hata oluştu (Uygulama çalışmaya devam edecek).");
     }
 }
-*/
 
 // 7. Pipeline
 // Swagger'ı sadece Development ortamında açıyoruz
