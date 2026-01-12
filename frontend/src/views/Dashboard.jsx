@@ -796,7 +796,7 @@ const Dashboard = ({ user, onLogout }) => {
           )}
         </div>
       </div>
-      {showWizard && <NewOrderWizard onClose={()=>setShowWizard(false)} user={user} staff={staff} onSave={()=>{fetchData();setShowWizard(false)}}/>}
+      {showWizard && <NewOrderWizard onClose={()=>setShowWizard(false)} user={user} staff={staff} onSuccess={()=>{fetchData();setShowWizard(false)}}/>}
       {showOrderDetail && <OrderDetailModal order={showOrderDetail} staff={staff} user={user} onClose={()=>setShowOrderDetail(null)} onSave={async (updatedOrder) => {
           try {
              await orderService.update(updatedOrder);

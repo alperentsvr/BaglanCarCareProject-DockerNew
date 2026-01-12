@@ -5,21 +5,21 @@ import { orderService } from "../api";
 const OrderDetailModal = ({ order, staff, user, onClose, onSave }) => {
   // Statü Helper
   const STATUS_LABELS = {
-    0: "Bekliyor",
-    1: "İşlemde",
-    2: "Tamamlandı",
-    3: "İptal"
+    1: "Bekliyor",
+    2: "İşlemde",
+    3: "Tamamlandı",
+    4: "İptal"
   };
 
   const getStatusId = (statusStr) => {
-    if (statusStr === undefined || statusStr === null) return 0;
+    if (statusStr === undefined || statusStr === null) return 1; // Default Pending
     if (typeof statusStr === "number") return statusStr;
     const s = String(statusStr).toLowerCase();
-    if (s.includes("bekliyor") || s.includes("pending")) return 0;
-    if (s.includes("işlemde") || s.includes("progress")) return 1;
-    if (s.includes("tamam") || s.includes("completed")) return 2;
-    if (s.includes("iptal") || s.includes("cancel")) return 3;
-    return 0;
+    if (s.includes("bekliyor") || s.includes("pending")) return 1;
+    if (s.includes("işlemde") || s.includes("progress")) return 2;
+    if (s.includes("tamam") || s.includes("completed")) return 3;
+    if (s.includes("iptal") || s.includes("cancel")) return 4;
+    return 1;
   };
 
   const [personnelIds, setPersonnelIds] = useState(order.personnelIds || []);
