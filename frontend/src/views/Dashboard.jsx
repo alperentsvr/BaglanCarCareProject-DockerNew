@@ -455,12 +455,20 @@ const Dashboard = ({ user, onLogout }) => {
   };
 
   const handleApproveRequest = async (id) => {
-    if(!confirm("Bu silme işlemini onaylıyor musunuz?")) return;
+    const req = requests.find(r => r.id === id);
+    let msg = "Bu işlemi onaylıyor musunuz?";
+    if (req) {
+        if (req.requestType === "PriceChange") msg = "Bu fiyat değişikliği talebini onaylıyor musunuz?";
+        else if (req.requestType === "ServiceDelete") msg = "Bu hizmet silme talebini onaylıyor musunuz?";
+        else if (req.requestType === "OrderDelete" || req.requestType === "Delete") msg = "Bu silme işlemini onaylıyor musunuz?";
+    }
+    
+    if(!confirm(msg)) return;
     try { await deletionRequestService.approve(id); fetchData(); } catch(err) { alert("Hata: " + err.message); }
   };
 
   const handleRejectRequest = async (id) => {
-    if(!confirm("Bu silme işlemini reddediyor musunuz?")) return;
+    if(!confirm("Bu talebi reddetmek istediğinize emin misiniz?")) return;
     try { await deletionRequestService.reject(id); fetchData(); } catch(err) { alert("Hata: " + err.message); }
   };
 
