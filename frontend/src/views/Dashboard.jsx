@@ -22,12 +22,20 @@ const OrderList = ({ orders, onEdit, onDelete }) => {
   const [search, setSearch] = useState("");
   const [expandedOrderId, setExpandedOrderId] = useState(null);
   const [viewMode, setViewMode] = useState("list"); // 'list' | 'board'
+  const [selectedCategory, setSelectedCategory] = useState("all"); 
 
-  const filtered = orders.filter(o => 
-    (o.plate || "").toLowerCase().includes(search.toLowerCase()) || 
+  // Get Unique Categories
+  const categories = ["all", ...new Set(orders.flatMap(o => o.services.map(s => s.category || s.Category || "Genel")).filter(Boolean))];
+
+  const filtered = orders.filter(o => {
+    const matchesSearch = (o.plate || "").toLowerCase().includes(search.toLowerCase()) || 
     (o.customer || "").toLowerCase().includes(search.toLowerCase()) ||
-    (o.phone || "").includes(search)
-  );
+    (o.phone || "").includes(search);
+
+    const matchesCategory = selectedCategory === "all" || o.services.some(s => (s.category || s.Category || "Genel") === selectedCategory);
+    
+    return matchesSearch && matchesCategory;
+  });
 
   const toggleExpand = (id) => setExpandedOrderId(expandedOrderId === id ? null : id);
 
@@ -90,6 +98,19 @@ const OrderList = ({ orders, onEdit, onDelete }) => {
                 </button>
             </div>
         </div>
+      </div>
+
+      {/* KATEGORİ FİLTRESİ */}
+      <div className="flex gap-2 overflow-x-auto pb-2 custom-scrollbar">
+        {categories.map(cat => (
+            <button key={cat} onClick={() => setSelectedCategory(cat)}
+            className={`px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-all border
+            ${selectedCategory === cat 
+                ? "bg-blue-600 border-blue-600 text-white shadow-md" 
+                : "bg-white border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-gray-300 dark:bg-dark-card dark:border-dark-border dark:text-gray-400 dark:hover:bg-dark-hover"}`}>
+                {cat === "all" ? "Tüm Kategoriler" : cat}
+            </button>
+        ))}
       </div>
       
       {/* LİSTE GÖRÜNÜMÜ */}
@@ -214,21 +235,21 @@ const OrderList = ({ orders, onEdit, onDelete }) => {
                 TRANSACTION_STATUS.COMPLETED
             ].map(col => (
                 <div key={col.id} className={`flex flex-col h-full rounded-xl border ${col.color.replace('text-', 'border-').split(' ')[2] + ' ' + col.color.split(' ')[0]}`}>
-                    <div className="p-4 border-b border-gray-200/50 dark:border-dark-border/50 flex justify-between items-center">
+                    <div className="p-4 border-b border-gray-200/50 dark:border-dark-border/50 flex justify-between items-center bg-gray-50/50 dark:bg-dark-bg/20 rounded-t-xl">
                         <h3 className="font-bold text-gray-800 dark:text-gray-100">{col.label}</h3>
-                        <span className="px-2 py-0.5 rounded-full bg-white dark:bg-dark-bg text-xs font-bold shadow-sm">
+                        <span className="px-2 py-0.5 rounded-full bg-white dark:bg-dark-bg text-xs font-bold shadow-sm text-gray-600 dark:text-gray-300 border border-gray-100 dark:border-dark-border">
                             {filtered.filter(o => o.statusId === col.id).length}
                         </span>
                     </div>
                     <div className="flex-1 overflow-y-auto p-3 space-y-3">
                         {filtered.filter(o => o.statusId === col.id).map(order => (
-                            <div key={order.id} onClick={() => onEdit(order)} className="bg-white dark:bg-dark-card p-3 rounded-lg shadow-sm border border-gray-200 dark:border-dark-border hover:shadow-md cursor-pointer transition-all group">
+                            <div key={order.id} onClick={() => onEdit(order)} className="bg-white dark:bg-dark-card p-3 rounded-lg shadow-sm border border-gray-200 dark:border-dark-border hover:shadow-md cursor-pointer transition-all group hover:border-blue-400 dark:hover:border-brand">
                                 <div className="flex justify-between items-start mb-2">
                                     <span className="font-mono font-bold text-gray-800 dark:text-gray-100">{order.plate}</span>
                                     
                                 </div>
                                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-2 truncate">{order.customer}</p>
-                                <div className="flex justify-between items-center text-xs text-gray-500">
+                                <div className="flex justify-between items-center text-xs text-gray-500 dark:text-gray-500">
                                     <span>{order.vehicle}</span>
                                     <span className="font-bold text-blue-600 dark:text-brand">₺{order.totalPrice?.toLocaleString()}</span>
                                 </div>
